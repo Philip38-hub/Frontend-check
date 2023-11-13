@@ -1,0 +1,1 @@
+Searching garages by lat and longi -> Backend has no lat/longi for a garage, instead it has a location.
