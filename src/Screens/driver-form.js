@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 
 
-function Driver(){    
+function DriverForm(){    
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
     const [phoneNumber, setPhoneNumber] = useState(null);
@@ -163,4 +163,4 @@ function Driver(){
  )
 }
 
-export default Driver;
+export default DriverForm;

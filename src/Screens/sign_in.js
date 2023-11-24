@@ -41,7 +41,7 @@ function SignIn() {
             console.log(decodedToken)
             // Access the user type from the decoded token
             const userType = decodedToken.user_type;
-
+            console.log('User type '+userType);
             // Redirect based on user type
             if (userType === 'Driver') {
                 window.location.replace("/driver");

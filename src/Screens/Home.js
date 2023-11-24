@@ -77,15 +77,15 @@ const Home = () => {
             >
               Sign In
             </a>
-            <a
+            {/* <a
               href="/register-garage"
               className="bg-cyan-700 text-white font-[poppins] duration-500 px-6 py-2 mx-4 rounded hover:text-cyan-700 hover:bg-yellow-400"
             >
               Register Garage
-            </a>
-            <button className="bg-cyan-700 text-white font-[poppins] duration-500 px-6 py-2 mx-4 rounded hover:text-cyan-700 hover:bg-yellow-400">
+            </a> */}
+            {/* <button className="bg-cyan-700 text-white font-[poppins] duration-500 px-6 py-2 mx-4 rounded hover:text-cyan-700 hover:bg-yellow-400">
               Get Service
-            </button>
+            </button> */}
             {/* <button className="bg-cyan-700 text-white font-[poppins] duration-500 px-6 py-2 mx-4 rounded hover:text-cyan-700 hover:bg-yellow-400" onClick={SignOut}>
               Logout
             </button> */}
@@ -152,7 +152,7 @@ const Home = () => {
               <div className=" input-group relative flex flex-wrap items-stretch w-full mb-4">
                 {/* <input type="search" className=" form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2" /> */}
 
-                <GooglePlacesAutocomplete
+                {/* <GooglePlacesAutocomplete
                   apiKey="AIzaSyA36Zk210sTg92NDoR4Pa_s_6zD3NMpf1U"
                   selectProps={{
                     styles: {
@@ -167,7 +167,7 @@ const Home = () => {
                     },
                     placeholder: "Search location...",
                   }}
-                />
+                /> */}
               </div>
             </div>
           </div>

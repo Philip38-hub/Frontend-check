@@ -1,5 +1,5 @@
-import { setSelectionRange } from "@testing-library/user-event/dist/utils";
-import React,{useState, useEffect} from "react";
+// import { setSelectionRange } from "@testing-library/user-event/dist/utils";
+import React,{useState} from "react";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { geocodeByAddress, getLatLng } from "react-google-places-autocomplete";
 
@@ -7,10 +7,9 @@ function RegisterGarage(){
     
     const [name, setName] = useState(null);
     const [phoneNumber, setPhoneNumber] = useState(null);
-    const [phoneNumber2, setPhoneNumber2] = useState(null);
-    const [location, setLocation] = useState({});
-    const [email, setEmail] = useState(null);
+    const [location, setLocation] = useState({})
     const [city, setCity] = useState(null)
+    const [street, setStreet] = useState(null);
 
     const getLatandLon = (address) => {
         geocodeByAddress(address)
@@ -25,37 +24,44 @@ function RegisterGarage(){
 
     const handleSubmit = async(e) =>{
         e.preventDefault();
+        const authToken = localStorage.getItem('authToken');
+        const userDetails =JSON.parse(localStorage.getItem('user'));
+        console.log(userDetails);
+        const user = userDetails.id;
+        console.log(user);
         const garage = {
             name: name,
             phoneNumber: phoneNumber,
-            phoneNumber2: phoneNumber2,
             location: location,
             city: city,
-            email: email
+            user: userDetails.user.id, 
         }
         console.log(garage);
         const response = await fetch(
           "http://127.0.0.1:8000/garages/",
           {
             method: "POST",
-            headers: {
+            headers: {              
               "Content-Type": "application/json",
+              Authorization: `Bearer ${authToken}`,
               Accept: "application/json",
+              
             },
             body: JSON.stringify({
               name: name,
               town: city,
+              postal_address: street,
               country: "Kenya",
+              phone_number: phoneNumber,
+              user: userDetails.user.id, 
             }),
           });
         const registration_request = await response.json()
-        if (registration_request.status_code === 200 || 201) {
-          // alert(
-          //   "Your garage's registration details have been successfully submitted.\n Thank you."
-          // );
-          console.log(garage);
-    }
-          window.location.replace("/");
+        if (response.ok) {
+          console.log(registration_request);         
+          window.location.replace("/garage-owner");
+        }
+          // window.location.replace("/garage-owner-details");
         } 
         
 
@@ -86,7 +92,7 @@ function RegisterGarage(){
                   required/>
                 </div>
 
-                <div className="md:col-span-5">
+                {/* <div className="md:col-span-5">
                   <label htmlFor="email">Email Address</label>
                   <input
                     type="text"
@@ -96,7 +102,7 @@ function RegisterGarage(){
                     placeholder="email@domain.com"
                     onChange={(e) => setEmail(e.target.value)}
                   required/>
-                </div>
+                </div> */}
 
                 <div className="md:col-span-5">
                   <label htmlFor="text">Phone Number</label>
@@ -111,19 +117,19 @@ function RegisterGarage(){
                 </div>
 
                 <div className="md:col-span-5">
-                  <label htmlFor="text">Alternate Phone Number</label>
+                  <label htmlFor="text">Street</label>
                   <input
                     type="text"
-                    name="phone_number"
-                    id="phone_number"
+                    name="street"
+                    id="street"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    placeholder="2547XXXXXXXX"
-                    onChange={(e) => setPhoneNumber2(e.target.value)}
+                    placeholder="Kawangware"
+                    onChange={(e) => setStreet(e.target.value)}
                   required/>
                 </div>
 
 
-                <div className="md:col-span-3">
+                {/* <div className="md:col-span-3">
                   <label htmlFor="address">Address / Street</label>
                   <GooglePlacesAutocomplete
                     apiKey="AIzaSyA36Zk210sTg92NDoR4Pa_s_6zD3NMpf1U"
@@ -141,7 +147,7 @@ function RegisterGarage(){
                       placeholder: "Search location...",
                     }}
                   required/>
-                </div>
+                </div> */}
 
                 <div className="md:col-span-2">
                   <label htmlFor="city">City</label>

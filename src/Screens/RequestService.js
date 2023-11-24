@@ -45,8 +45,6 @@ const RequestService = () => {
             body: JSON.stringify({
               destination_address: garage.phone_number,
               content: "string",
-              driver_phone_number: phoneNumber,
-              driver_name: driverName,
               garage_name: garage.name,
               driver_location: {
                 "lat": 2.456,
@@ -82,12 +80,12 @@ const RequestService = () => {
                   <hr />
                   <h4 className="font-medium text-lg">Garage Detail</h4>
                   <hr />
-                  <h4 className="font-medium text-lg">Name: {garage?.name}</h4>
+                  {/* <h4 className="font-medium text-lg">Name: {garage?.name}</h4> */}
                   <h4 className="font-medium text-lg">
-                    Phone: {garage.phone_number}
+                    {/* Phone: {garage.phone_number} */}
                   </h4>
                   <h4 className="font-medium text-lg">
-                    Location: {garage.town}, {garage.country}
+                    {/* Location: {garage.town}, {garage.country} */}
                   </h4>
                 </div>
 
@@ -96,41 +94,6 @@ const RequestService = () => {
                     className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5"
                     onSubmit={handleSubmit}
                   >
-                    <div className="md:col-span-5">
-                      <label htmlFor="full_name">Full Name</label>
-                      <input
-                        type="text"
-                        name="full_name"
-                        id="full_name"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                        onChange={(e) => setDriverName(e.target.value)}
-                      />
-                    </div>
-
-                    <div className="md:col-span-5">
-                      <label htmlFor="email">Email Address</label>
-                      <input
-                        type="text"
-                        name="email"
-                        id="email"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                        placeholder="email@domain.com"
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-                    </div>
-
-                    <div className="md:col-span-5">
-                      <label htmlFor="text">Phone Number</label>
-                      <input
-                        type="text"
-                        name="phone_number"
-                        id="phone_number"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                        placeholder="254745XXXXXXXX"
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                      />
-                    </div>
-
                     <div className="md:col-span-5">
                       <label htmlFor="text">Service Needed</label>
                       <input

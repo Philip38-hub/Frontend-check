@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 
 
-function GarageOwner(){    
+function GarageOwnerForm(){    
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
     const [phoneNumber, setPhoneNumber] = useState(null);
@@ -39,7 +39,7 @@ function GarageOwner(){
                 phone_number: phoneNumber,
                 id_number: idNumber,
                 kra_pin: kraPin,
-                gender: gender   
+                // gender: gender   
             
             }),
           });
@@ -123,8 +123,8 @@ function GarageOwner(){
                   <label htmlFor="text">Gender</label>
                   <select  onChange={(e) => setGender(e.target.value)} required>
                   {/* <option value="" disabled>Gender</option> */}
-                  <option value="garageOwner">Female</option>
-                  <option value="driver">Male</option>                 
+                  <option value="Female">Female</option>
+                  <option value="Male">Male</option>                 
                   
                 </select>
                 </div>
@@ -135,7 +135,7 @@ function GarageOwner(){
                       className="bg-cyan-700 text-white font-[poppins] duration-500 px-6 py-2 mx-4 rounded hover:text-cyan-700 hover:bg-yellow-400"
                       type="submit"
                     >
-                      Sign Up
+                      Add Details
                     </button>
                   </div>
                 </div>
@@ -150,4 +150,4 @@ function GarageOwner(){
  )
 }
 
-export default GarageOwner;
+export default GarageOwnerForm;
