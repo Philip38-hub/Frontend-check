@@ -11,9 +11,9 @@ import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import RequestService from './Screens/RequestService';
 import StarRating from './Screens/ReviewForm';
 import GarageOwner  from './Screens/garage-owner-interface';
-import Garage from './Screens/garage-details';
+import Garage from './Screens/service-details';
 import Driver from './Screens/driver-interface';
-import GarageDetail from './Screens/garage-details';
+import ServiceDetail from './Screens/service-details';
 import UserDetail from './Screens/view-profile';
 import AddService from './Screens/add-service';
 
@@ -33,7 +33,7 @@ function App() {
         <Route path='/garage-owner' element={<GarageOwner />}/>
         <Route path='/garage' element={<Garage />}/>
         <Route path='/driver' element={<Driver />}/>
-        <Route path='/garage-detail' element={<GarageDetail />}/>
+        <Route path='/service-detail' element={<ServiceDetail />}/>
         <Route path='/user-detail' element={<UserDetail />}/>
         <Route path='/add-service' element={<AddService />} />
       </Routes>

@@ -1,6 +1,7 @@
 import React,{useState} from "react";
 import { json } from "react-router-dom";
 
+const baseUrl = 'http://192.168.1.102:8000';
 
 function SignUp(){    
     const [userName, setUserName] = useState(null);
@@ -8,8 +9,9 @@ function SignUp(){
     const [password, setPassword] = useState(null);
     const [password2, setPassword2] = useState(null);
     const [accountType, setAccountType] = useState('garageOwner');
-    const [firstName, setFirstName] = useState(null);
-    const [lastName, setLastName] = useState(null);
+   const [showError, setShowError] = useState(false);
+   const [passwordMatch, setPasswordMatch] = useState(true);
+
     
 
     const handleSubmit = async(e) =>{
@@ -18,41 +20,46 @@ function SignUp(){
             username: userName,
                 email: email,
                 password: password,
-                password2: password2,
-                first_name: firstName,
-                last_name: lastName
-                        
+                password2: password2,                        
         }
         console.log(user);
-        const response = await fetch(
-          "http://127.0.0.1:8000/api/auth/register/",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify({
-                username: userName,
-                email: email,
-                password: password,
-            
-            }),
-          });
-        const userDetails = await response.json()
-        if (response.ok) {
-          console.log(userDetails)
-          console.log('AccountType: '+ accountType);
-          localStorage.setItem('user', JSON.stringify(userDetails));
-          if(accountType === 'garageOwner'){
-            window.location.replace("/garage-owner-details");
-          }else{
-            window.location.replace("/driver-details");
-          }
-          
-          // console.log(user);
-        }
-          
+        if(password === password2){
+          const response = await fetch(
+            `${baseUrl}/api/auth/register/`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              body: JSON.stringify({
+                  username: userName,
+                  email: email,
+                  password: password,
+                  password2: password2
+              
+              }),
+            });
+            const userDetails = await response.json()
+            // console.log(response)
+            if (response.ok) {
+              console.log(userDetails)
+              console.log('AccountType: '+ accountType);
+              localStorage.setItem('user', JSON.stringify(userDetails));
+              if(accountType === 'garageOwner'){
+                window.location.replace("/garage-owner-details");
+              }else{
+                window.location.replace("/driver-details");
+              }
+              
+              // console.log(user);
+            }else{
+              console.log('Errrorrrrrrrr');
+              setShowError(true);
+            }
+        }else{
+          setPasswordMatch(false);
+        }       
         } 
         
 
@@ -72,6 +79,27 @@ function SignUp(){
                 className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5"
                 onSubmit={handleSubmit}
               >
+              {showError === true ? (
+                <>
+                <div className="md:col-span-5">
+                  <p className="error">Username  or email already used!</p>
+                </div>
+              </>
+              ):(
+                <></>
+              )
+              }
+              {passwordMatch === false ? (
+                <>
+                <div className="md:col-span-5">
+                  <p className="error">Passwords do not match!</p>
+                </div>
+              </>
+              ):(
+                <></>
+              )
+              }
+             
                 <div className="md:col-span-5">
                   <label htmlFor="garage_name">Username</label>
                   <input
@@ -102,7 +130,8 @@ function SignUp(){
                     name="password"
                     id="password"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    placeholder=""
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,12}" 
+									 title="One number, one uppercase, one lowercase letter, with 8 to 12 characters"
                     onChange={(e) => setPassword(e.target.value)}
                   required/>
                 </div>
@@ -114,6 +143,8 @@ function SignUp(){
                     id="password"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                     placeholder=""
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,12}" 
+									 title="One number, one uppercase, one lowercase letter, with 8 to 12 characters"
                     onChange={(e) => setPassword2(e.target.value)}
                   required/>
                 </div>

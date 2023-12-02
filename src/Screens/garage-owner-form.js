@@ -1,5 +1,7 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 
+
+const baseUrl = 'http://192.168.1.102:8000';
 
 function GarageOwnerForm(){    
     const [firstName, setFirstName] = useState(null);
@@ -8,6 +10,8 @@ function GarageOwnerForm(){
     const [idNumber, setIdNumber] = useState(null);
     const [kraPin, setKraPin] = useState(null);
     const [gender, setGender] = useState(null);    
+    const [town, setTown] = useState(null);
+    const [postalCode, setPostalCode] = useState(null);
 
     const handleSubmit = async(e) =>{
         e.preventDefault();
@@ -25,7 +29,7 @@ function GarageOwnerForm(){
         }
         console.log(user);
         const response = await fetch(
-          "http://127.0.0.1:8000/garage-owners/",
+          `${baseUrl}/garage-owners/`,
           {
             method: "POST",
             headers: {
@@ -39,6 +43,10 @@ function GarageOwnerForm(){
                 phone_number: phoneNumber,
                 id_number: idNumber,
                 kra_pin: kraPin,
+                postal_code: postalCode,
+                town: town,
+                // gender: gender,
+                country: 'Kenya'
                 // gender: gender   
             
             }),
@@ -48,6 +56,8 @@ function GarageOwnerForm(){
             console.log(garageOwner);         
             window.location.replace("/sign-in");
            
+        }else{
+
         } 
     }
  return (
@@ -72,6 +82,7 @@ function GarageOwnerForm(){
                     type="text"
                     name="first_name"
                     id="firstName"
+                    maxLength="50"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                     onChange={(e) => setFirstName(e.target.value)}
                   required/>
@@ -84,7 +95,8 @@ function GarageOwnerForm(){
                     name=""
                     id="lastName"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    placeholder="email@domain.com"
+                    maxLength="50"
+                    placeholder="last name"
                     onChange={(e) => setLastName(e.target.value)}
                   required/>
                 </div>
@@ -95,6 +107,12 @@ function GarageOwnerForm(){
                     type="text"
                     name=""
                     id="phoneNumber"
+                   
+                    pattern="^(07)[0-9]*"
+                    minLength="10"
+                    maxLength="10"
+                    title="Must be numbers, no more than 10"
+                    placeholder="07xxxxxxxx"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                     onChange={(e) => setPhoneNumber(e.target.value)}
                   required/>
@@ -105,6 +123,10 @@ function GarageOwnerForm(){
                     type="text"
                     name=""
                     id="idNumber"
+                   
+                    pattern="[0-9]*"
+                    maxLength="8"
+                    title="Must be numbers, no more than 8"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                     onChange={(e) => setIdNumber(e.target.value)}
                   required/>
@@ -115,6 +137,9 @@ function GarageOwnerForm(){
                     type="text"
                     name=""
                     id="kraPin"
+                   
+                    pattern="[A-Z][0-9]{9}[A-Z]{1}"
+                    maxLength="11"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                     onChange={(e) => setKraPin(e.target.value)}
                   required/>
@@ -127,6 +152,28 @@ function GarageOwnerForm(){
                   <option value="Male">Male</option>                 
                   
                 </select>
+                </div>
+                <div className="md:col-span-5">
+                  <label htmlFor="garage_name">Postal Code</label>
+                  <input
+                    type="text"
+                    name=""
+                    id="postal"
+                    className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                    onChange={(e) => setPostalCode(e.target.value)}
+                  required/>
+                </div>
+                <div className="md:col-span-5">
+                  <label htmlFor="garage_name">Town</label>
+                  <input
+                    type="text"
+                    name=""
+                    id="town"
+                    pattern="[a-zA-Z][a-zA-Z\s\.]*" 
+                    maxLength="50"
+                    className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                    onChange={(e) => setTown(e.target.value)}
+                  required/>
                 </div>
                 
                 <div className="md:col-span-5 text-right">

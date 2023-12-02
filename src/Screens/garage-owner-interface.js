@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import logo from "../Assets/Images/checkmech.png";
 import { jwtDecode } from "jwt-decode";
+import Navbar from "../components/home/NavBar";
 // import {SignOut} from './sign_out';
 
+const baseUrl = 'http://192.168.1.102:8000';
 const GarageOwner = () => {
 
   const [garages, setGarages] = useState([]);
@@ -13,7 +15,7 @@ const GarageOwner = () => {
       const authToken = localStorage.getItem('authToken');
       console.log(jwtDecode(authToken));
       const response = await fetch(
-        `http://127.0.0.1:8000/garages/`,
+        `${baseUrl}/garages/`,
         {
           method: "GET",
           headers: {              
@@ -35,79 +37,69 @@ const GarageOwner = () => {
 
   function handleGarageClick(e){
     e.preventDefault()
-    const garageId = e.target.value;
+    const garageId = e.target.id;
     console.log(garageId);
     localStorage.setItem('garageId', garageId);
-    window.location.replace('/garage-detail');
+    window.location.replace('/service-detail');
   } 
 
   return (
     <>
-      <nav className="bg-white px-2 sm:px-4 py-2.5 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
-        <div className="container flex flex-wrap items-center justify-between mx-auto">
-          <a href="http://127.0.0.1:8000" className="flex items-center">
-            <span className="text-2xl font-[poppins] text-cyan-700">
-              <img className="h-11 inline" w="11px" h="11px" src={logo} alt="checkmech logo" />
-              {/* CheckMech */}
-            </span>
-          </a>
-          <div className="flex md:order-2">
-          <a
-              href="/register-garage"
-              className="bg-cyan-700 text-white font-[poppins] duration-500 px-6 py-2 mx-4 rounded hover:text-cyan-700 hover:bg-yellow-400"
-            >
-              Add Garage
-            </a>
-            <a
-              href="/add-service"
-              className="bg-cyan-700 text-white font-[poppins] duration-500 px-6 py-2 mx-4 rounded hover:text-cyan-700 hover:bg-yellow-400"
-            >
-              Add Service
-            </a>
-            <a
-              href="/user-detail"
-              className="bg-cyan-700 text-white font-[poppins] duration-500 px-6 py-2 mx-4 rounded hover:text-cyan-700 hover:bg-yellow-400"
-            >
-              View Profile
-            </a>
-            <a
-              href="/sign-out"
-              className="bg-cyan-700 text-white font-[poppins] duration-500 px-6 py-2 mx-4 rounded hover:text-cyan-700 hover:bg-yellow-400"
-            >
-              Sign Out
-            </a>
-           
-          </div>
-        </div>
-      </nav>
-      <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
-    <div className="container max-w-screen-lg mx-auto">
+      <Navbar />
+       <div className="min-h-screen p-6 bg-gra-100 flex items-center justify-center">
+    <div className="container max-w-screen-lg mx">
       <div>
         <div className="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
-          <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
-            {/* <div className="text-gray-600">
-              <p className="font-medium text-lg">Register garage</p>
-              <hr />
-            </div> */}
+          <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3 overflow-x:hidden">
+           
 
-            <div className="lg:col-span-2">
-                <ol>
+            <div className="relative lg:col-span-2 overflow-x-auto ">
+                <table class="w-full table-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                      <th scope="col" class="px-6 py-3">Garage Name</th>
+                      <th scope="col" class="px-6 py-3">Contact</th>
+                      <th scope="col" class="px-6 py-3">Street</th>
+                      <th scope="col" class="px-6 py-3">Town</th>
+                      <th scope="col" class="px-6 py-3 sr-only" >View Services</th>
+                    </tr>
+                  </thead>
+                  <tbody>
                 {garages && garages.map((garage) => (
-                          <li  value={garage.id} key={garage.id} id={garage.id} onClick={handleGarageClick}>
+                    <>
+                     
+                        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                          <td class="px-6 py-4"  key={garage.id} id={garage.id + 'name'}>
                              {garage.name}
-                          </li>
-                        ))}
-                </ol>
+                          </td>
+                          <td  class="px-6 py-4" key={garage.id} id={garage.id + 'contact'}>
+                             {garage.phone_number}
+                          </td>
+                          <td class="px-6 py-4"  key={garage.id} id={garage.id + 'street'}>
+                             {garage.postal_address}
+                          </td>
+                          <td class="px-6 py-4"  key={garage.id} id={garage.id + 'town'}>
+                             {garage.town}
+                          </td>
+                          <td class="px-6 py-4 text-blue-600" value={garage.id} key={garage.id} id={garage.id} onClick={handleGarageClick}>
+                              View Services
+                          </td>
+                        </tr>
+                         
+                      </> ))}
+                    </tbody>
+                </table>
+               
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-     
-    <footer className="bg-cyan-700 h-12 fixed bottom-1 p-4 inset-x-0">
-        <div className="text-center text-white">© {new Date().getFullYear()} Copyright by Check Mech</div>
-    </footer>
+              <footer className="bg-cyan-700 h-12 fixed bottom-1 p-4 inset-x-0">
+                  <div className="text-center text-white">© {new Date().getFullYear()} Copyright by Check Mech</div>
+               </footer>
+   
      
     </>
   );

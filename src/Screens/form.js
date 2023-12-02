@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 //import "./RequestService.css"
 
 
+const baseUrl = 'http://192.168.1.102:8000';
 const RequestService = () => {
     const [garage, setGarage] = useState({});
     const [driverName, setDriverName] = useState(null);
@@ -16,7 +17,7 @@ const RequestService = () => {
     console.log(garage_id)
 
     const getGarage = async() => {
-        let response = await fetch(`http://127.0.0.1:8000/garages-list/${garage_id}`, {
+        let response = await fetch(`${baseUrl}/garages-list/${garage_id}`, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -31,7 +32,7 @@ const RequestService = () => {
     const handleSubmit = async(e) => {
         e.preventDefault();
         const response = await fetch(
-          "http://127.0.0.1:8000/notifications/request-service/",
+          `${baseUrl}/notifications/request-service/`,
           {
             method: "POST",
             headers: {

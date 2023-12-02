@@ -28,6 +28,6 @@
     }
 
 }
-.test{
-    cursor: pointer;
+.error{
+    color: red;
 }

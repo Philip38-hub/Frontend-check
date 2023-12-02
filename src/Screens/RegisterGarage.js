@@ -1,8 +1,10 @@
 // import { setSelectionRange } from "@testing-library/user-event/dist/utils";
+import { jwtDecode } from "jwt-decode";
 import React,{useState} from "react";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { geocodeByAddress, getLatLng } from "react-google-places-autocomplete";
 
+const baseUrl = 'http://192.168.1.102:8000';
 function RegisterGarage(){
     
     const [name, setName] = useState(null);
@@ -25,20 +27,22 @@ function RegisterGarage(){
     const handleSubmit = async(e) =>{
         e.preventDefault();
         const authToken = localStorage.getItem('authToken');
-        const userDetails =JSON.parse(localStorage.getItem('user'));
-        console.log(userDetails);
-        const user = userDetails.id;
-        console.log(user);
+        // const userDetails =JSON.parse(localStorage.getItem('user'));
+        const decodedAuthToken = jwtDecode(authToken);
+        // console.log(userDetails);
+        console.log('userrrrrrrrrrrrrrrrrrrrrr', decodedAuthToken.id);
+        // const user = userDetails.user.id;
+        // console.log(user);
         const garage = {
             name: name,
             phoneNumber: phoneNumber,
             location: location,
             city: city,
-            user: userDetails.user.id, 
+            user: decodedAuthToken.id, 
         }
         console.log(garage);
         const response = await fetch(
-          "http://127.0.0.1:8000/garages/",
+          `${baseUrl}/garages/`,
           {
             method: "POST",
             headers: {              
@@ -53,7 +57,7 @@ function RegisterGarage(){
               postal_address: street,
               country: "Kenya",
               phone_number: phoneNumber,
-              user: userDetails.user.id, 
+              user: decodedAuthToken.id, 
             }),
           });
         const registration_request = await response.json()
@@ -87,6 +91,7 @@ function RegisterGarage(){
                     type="text"
                     name="garage_name"
                     id="garage_name"
+                    maxLength="70"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                     onChange={(e) => setName(e.target.value)}
                   required/>
@@ -110,8 +115,13 @@ function RegisterGarage(){
                     type="text"
                     name="phone_number"
                     id="phone_number"
+                    pattern="^(07)[0-9]*"
+                    minLength="10"
+                    maxLength="10"
+                    title="Must be numbers, no more than 10"
+                    placeholder="07xxxxxxxx"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    placeholder="2547XXXXXXXX"
+                   
                     onChange={(e) => setPhoneNumber(e.target.value)}
                   required/>
                 </div>
@@ -122,6 +132,7 @@ function RegisterGarage(){
                     type="text"
                     name="street"
                     id="street"
+                    maxLength="50"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                     placeholder="Kawangware"
                     onChange={(e) => setStreet(e.target.value)}
@@ -153,8 +164,9 @@ function RegisterGarage(){
                   <label htmlFor="city">City</label>
                   <input
                     type="text"
-                    name="phone_number"
-                    id="phone_number"
+                    name="town"
+                    id="city"
+                    maxLength="50"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                     placeholder="Nairobi"
                     onChange={(e) => setCity(e.target.value)}

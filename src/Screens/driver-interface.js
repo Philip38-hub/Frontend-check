@@ -6,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 // import {SignOut} from './sign_out';
 
 
+const baseUrl = 'http://192.168.1.102:8000';
 
 const Driver = () => {
   // console.log("Today is Monday")
@@ -19,6 +20,7 @@ const Driver = () => {
   const [services, setServices] = useState([]);
   const [garages, setGarages] = useState([]);
   const [selectedGarage, setSelectedGarage] = useState(null);
+  const [showHeader, setShowHeader] = useState(false);
 
   const authToken = localStorage.getItem('authToken')
   const decodedAuthToken = jwtDecode(authToken);
@@ -26,17 +28,18 @@ const Driver = () => {
   const handleServiceChange = (event) => {
     setSelectedService(event.target.value);
   };
-
-  const handleGarageHover = (e) =>{
-    setSelectedGarage(e.target.value);
-  }
-
-  function handleMouseOut(e){
-    setSelectedGarage(null);
-  }
+  function handleGarageClick(e){
+    e.preventDefault()
+    // setShowHeader(true);
+    const garageId = e.target.id;
+    console.log(garageId);
+    localStorage.setItem('garageId', garageId);
+    window.location.replace('/service-detail');
+   
+  } 
   useEffect(() => {   
     const getServices = async() => {
-      let response = await fetch(`http://127.0.0.1:8000/services-list/`, {
+      let response = await fetch(`${baseUrl}/services-list/`, {
           method: 'GET',
           headers: {
               "Content-Type": "application/json",
@@ -45,6 +48,7 @@ const Driver = () => {
           }
       })
       setServices(await response.json())
+     
     console.log("Services: ", services)
      
   }
@@ -55,9 +59,10 @@ const Driver = () => {
  
   const handleSubmit = async(e) => {
       e.preventDefault();
+      setGarages([]);
       const response = await fetch(
         // `http://127.0.0.1:8000/garages-list/${selectedService}/${town}/${street}/`,
-        `http://127.0.0.1:8000/garages-list/?service=${selectedService}&town=${town}&postal_address=${street}`,
+        `${baseUrl}/garages-list/?service=${selectedService}&town=${town}&postal_address=${street}`,
         {
           method: "GET",
           headers: {
@@ -69,6 +74,7 @@ const Driver = () => {
       );
      
       setGarages(await response.json())
+      setShowHeader(true);
       console.log('Garagesssssssssssss');
       console.log(garages);
       if(response.ok){
@@ -82,7 +88,7 @@ const Driver = () => {
     <>
       <nav className="bg-white px-2 sm:px-4 py-2.5 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
         <div className="container flex flex-wrap items-center justify-between mx-auto">
-          <a href="http://127.0.0.1:8000" className="flex items-center">
+          <a href="/driver" className="flex items-center">
             <span className="text-2xl font-[poppins] text-cyan-700">
               <img className="h-11 inline" w="11px" h="11px" src={logo} alt="checkmech logo" />
             </span>
@@ -173,6 +179,7 @@ const Driver = () => {
                         type="text"
                         name="address"
                         id="address"
+                        maxLength="70"
                         className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                         placeholder="Kawangware"
                         onChange={(e) => setStreet(e.target.value)}
@@ -185,6 +192,7 @@ const Driver = () => {
                         type="text"
                         name="city"
                         id="city"
+                        maxLength="70"
                         className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                         placeholder="Nairobi"
                         onChange={(e) => setTown(e.target.value)}
@@ -203,29 +211,49 @@ const Driver = () => {
                     </div>
                   </form>
                 </div>
-                <div className="lg:col-span-2">
-                  <ol>
-                  {garages && garages.map((garage) => (
-                      <>
-                          <li key={garage.id} value={garage.id} id={garage.id} onMouseOver={handleGarageHover} onMouseOut={handleMouseOut}>
-                            {garage.name}
-                          </li>
-                          <ul>
-                          {selectedGarage === garage.id ? (
-                            <>
-                            {/* Garage details */}
-                              <li>{garage.phone_number}</li>
-                            </>
-                          ) : (
-                            <>
-
-                            </>
-                          )
-
-                          }
-                          </ul>
-                      </>))}
-                  </ol>
+                <div className="relative lg:col-span-2 overflow-x-auto">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                {showHeader ? (
+                <>
+                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                      <th scope="col" class="px-6 py-3">Garage Name</th>
+                      <th scope="col" class="px-6 py-3">Contact</th>
+                      <th scope="col" class="px-6 py-3">Street</th>
+                      <th scope="col" class="px-6 py-3">Town</th>
+                      <th scope="col" class="px-6 py-3 sr-only">More Services</th>
+                    </tr>
+                  </thead>
+                  </>
+                ): (
+                  <></>
+                )
+                }
+                <tbody>
+                {garages && garages.map((garage) => (
+                  
+                    <>                   
+                        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                          <td  class="px-6 py-4" key={garage.id} id={garage.id + 'name'}>
+                             {garage.name}
+                          </td>
+                          <td class="px-6 py-4"  key={garage.id} id={garage.id + 'contact'}>
+                             {garage.phone_number}
+                          </td>
+                          <td class="px-6 py-4" key={garage.id} id={garage.id + 'street'}>
+                             {garage.postal_address}
+                          </td>
+                          <td class="px-6 py-4" key={garage.id} id={garage.id + 'town'}>
+                             {garage.town}
+                          </td>
+                          <td class="px-6 py-4 text-blue-600" value={garage.id} key={garage.id} id={garage.id} onClick={handleGarageClick}>
+                              More Services
+                          </td>
+                        </tr>
+                         
+                      </> ))}
+                    </tbody>
+                </table>
                 </div>
               </div>
             </div>

@@ -1,8 +1,10 @@
 // Assuming you are using fetch or another HTTP library
+
+const baseUrl = 'http://192.168.1.102:8000';
 const SignOut = async () => {
     const AuthToken = localStorage.getItem('AuthToken')
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/auth/logout/', {
+        const response = await fetch(`${baseUrl}/api/auth/logout/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

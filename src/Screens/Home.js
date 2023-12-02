@@ -10,7 +10,8 @@ import verified from "../Assets/Images/verified.jpg";
 import africanmech from "../Assets/Images/africanmech.jpg";
 // import {SignOut} from './sign_out';
 
-const BASE_URL = "http://127.0.0.1:8000";
+
+const baseUrl = 'http://192.168.1.102:8000';
 
 const Home = () => {
   const [garages, setGarages] = useState([]);
@@ -25,7 +26,7 @@ const Home = () => {
   };
 
   const getGarages = ({ lat, lng }) => {
-    fetch(`${BASE_URL}/garages/?latitude=${lat}&longitude=${lng}`)
+    fetch(`${baseUrl}/garages/?latitude=${lat}&longitude=${lng}`)
       .then(response => response.json())
       .then(response => {
         response.forEach(g => g.is_verified);
@@ -64,7 +65,7 @@ const Home = () => {
 
       <nav className="bg-white px-2 sm:px-4 py-2.5 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
         <div className="container flex flex-wrap items-center justify-between mx-auto">
-          <a href="http://127.0.0.1:8000" className="flex items-center">
+          <a href="/" className="flex items-center">
             <span className="text-2xl font-[poppins] text-cyan-700">
               <img className="h-11 inline" w="11px" h="11px" src={logo} alt="checkmech logo" />
               {/* CheckMech */}

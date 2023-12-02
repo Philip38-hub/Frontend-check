@@ -1,2 +1,14 @@
 
 const BASE_URL = "http://51.15.243.105:8000";
+
+ {/* { hoverdService === service.id ? ( */}
+                          <>
+                          {/* <p>{service.name}</p>  */}
+                          {/* <p>{service.description}</p> */}
+                          {/* <p>{service.cost}</p> */}
+                          </>
+                        {/* ): ( */}
+                          <>
+
+                          </>
+                        {/* )} */}

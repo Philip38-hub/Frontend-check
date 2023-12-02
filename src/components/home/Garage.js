@@ -2,7 +2,7 @@ import React, { useState} from "react";
 import { useNavigate } from "react-router-dom";
 import verified from "../../Assets/Images/verified.jpg";
 import StarRatings from 'react-star-ratings';
-
+import Navbar from "./NavBar";
 const Garage = ({garage}) => {
 
 //   const isVerified = false; 

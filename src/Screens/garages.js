@@ -3,6 +3,7 @@ import React,{useState} from "react";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { geocodeByAddress, getLatLng } from "react-google-places-autocomplete";
 
+const baseUrl = 'http://192.168.1.102:8000';
 function Garages(){
     const [garages, setGarages] = useState([]);
 
@@ -15,7 +16,7 @@ function Garages(){
         const user = userDetails.id;
         console.log(user);
         const response = await fetch(
-          `http://127.0.0.1:8000/garages/user=${userDetails.user.id}`,
+          `${baseUrl}/garages/user=${userDetails.user.id}`,
           {
             method: "GET",
             headers: {              
