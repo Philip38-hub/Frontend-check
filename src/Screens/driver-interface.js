@@ -6,11 +6,23 @@ import { jwtDecode } from "jwt-decode";
 // import {SignOut} from './sign_out';
 
 
-const baseUrl = 'http://192.168.1.102:8000';
+const baseUrl = 'http://192.168.7.152:8000'; //laptop ip address
+const localhost = 'http://127.0.0.1:8000'; //local ip address
 
 const Driver = () => {
   // console.log("Today is Monday")
   // const location = useLocation()
+  
+  const authToken = localStorage.getItem('authToken')
+  if(!authToken){
+    window.location.replace('/');
+  }
+  const decodedAuthToken = jwtDecode(authToken);
+
+  
+  if(decodedAuthToken.user_type !== 'Driver'){
+    window.location.replace('/sign-in');
+  }
 
   const [selectedService, setSelectedService] = useState(null);
   const [town, setTown] = useState(null);
@@ -22,8 +34,6 @@ const Driver = () => {
   const [selectedGarage, setSelectedGarage] = useState(null);
   const [showHeader, setShowHeader] = useState(false);
 
-  const authToken = localStorage.getItem('authToken')
-  const decodedAuthToken = jwtDecode(authToken);
 
   const handleServiceChange = (event) => {
     setSelectedService(event.target.value);
@@ -112,13 +122,13 @@ const Driver = () => {
             >
               View Profile
             </a>
-            {/* <a
+             <a
               href="/sign-out"
               className="bg-cyan-700 text-white font-[poppins] duration-500 px-6 py-2 mx-4 rounded hover:text-cyan-700 hover:bg-yellow-400"
             >
               Sign Out
-            </a> */}
-           
+            </a>
+            
           </div>
         </div>
       </nav>

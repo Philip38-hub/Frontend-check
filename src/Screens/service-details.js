@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import logo from "../Assets/Images/checkmech.png";
 import { jwtDecode } from "jwt-decode";
 
-const baseUrl = 'http://192.168.1.102:8000';
 
-
+const baseUrl = 'http://192.168.7.152:8000'; //laptop ip address
+const localhost = 'http://127.0.0.1:8000'; //local ip address
 
   
 
@@ -16,6 +16,10 @@ const ServiceDetail = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const authToken = localStorage.getItem('authToken');
+  
+  if(!authToken){
+    window.location.replace('/');
+  }
   const decodedToken = jwtDecode(authToken);
   let userType = decodedToken.user_type;
 

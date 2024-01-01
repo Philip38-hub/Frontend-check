@@ -1,7 +1,8 @@
 import React,{useState} from "react";
 import { json } from "react-router-dom";
 
-const baseUrl = 'http://192.168.1.102:8000';
+const baseUrl = 'http://192.168.7.152:8000'; //laptop ip address
+const localhost = 'http://127.0.0.1:8000'; //local ip address
 
 function SignUp(){    
     const [userName, setUserName] = useState(null);
@@ -43,6 +44,7 @@ function SignUp(){
             const userDetails = await response.json()
             // console.log(response)
             if (response.ok) {
+              console.log('okayyyyyyyyyyyyyyyyy')
               console.log(userDetails)
               console.log('AccountType: '+ accountType);
               localStorage.setItem('user', JSON.stringify(userDetails));
@@ -58,6 +60,7 @@ function SignUp(){
               setShowError(true);
             }
         }else{
+          console.log('no match')
           setPasswordMatch(false);
         }       
         } 
@@ -140,7 +143,7 @@ function SignUp(){
                   <input
                     type="password"
                     name="password2"
-                    id="password"
+                    id="password2"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                     placeholder=""
                     pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,12}" 

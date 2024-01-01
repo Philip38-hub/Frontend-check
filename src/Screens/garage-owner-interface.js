@@ -4,15 +4,29 @@ import { jwtDecode } from "jwt-decode";
 import Navbar from "../components/home/NavBar";
 // import {SignOut} from './sign_out';
 
-const baseUrl = 'http://192.168.1.102:8000';
-const GarageOwner = () => {
 
+const baseUrl = 'http://192.168.7.152:8000'; //laptop ip address
+const localhost = 'http://127.0.0.1:8000'; //local ip address
+
+
+const GarageOwner = () => {
+ 
   const [garages, setGarages] = useState([]);
   
   useEffect(()=> {
+    const authToken = localStorage.getItem('authToken');
+    if(!authToken){
+      window.location.replace('/');
+    }
+    const decodedAuthToken = jwtDecode(authToken);
+    
+  
+  if(decodedAuthToken.user_type !== 'Garage Owner'){
+    window.location.replace('/sign-in');
+  }
   const getGarages = async(e) =>{
       // e.preventDefault();
-      const authToken = localStorage.getItem('authToken');
+     
       console.log(jwtDecode(authToken));
       const response = await fetch(
         `${baseUrl}/garages/`,

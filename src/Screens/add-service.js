@@ -6,9 +6,21 @@ import Navbar from "../components/home/NavBar";
 // import {SignOut} from './sign_out';
 
 
-const baseUrl = 'http://192.168.1.102:8000';
+const baseUrl = 'http://192.168.7.152:8000'; //laptop ip address
+const localhost = 'http://127.0.0.1:8000'; //local ip address
 
 const AddService = () => {
+
+  const authToken = localStorage.getItem('authToken');
+  if(!authToken){
+    window.location.replace('/');
+  }
+  const decodedAuthToken = jwtDecode(authToken);
+  
+  
+if(decodedAuthToken.user_type !== 'Garage Owner'){
+  window.location.replace('/sign-in');
+}
   const [services, setServices] = useState([]);
   const [garages, setGarages] = useState([]);
   const [selectedService, setSelectedService] = useState(null);
@@ -20,7 +32,7 @@ const AddService = () => {
   const handleGarageChange = (event) => {
     setSelectedGarage(event.target.value);
   };
-  const authToken = localStorage.getItem('authToken')
+  
   
  
   useEffect(() => {

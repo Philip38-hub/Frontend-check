@@ -4,9 +4,25 @@ import React,{useState} from "react";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { geocodeByAddress, getLatLng } from "react-google-places-autocomplete";
 
-const baseUrl = 'http://192.168.1.102:8000';
+
+const baseUrl = 'http://192.168.7.152:8000'; //laptop ip address
+const localhost = 'http://127.0.0.1:8000'; //local ip address
+
 function RegisterGarage(){
-    
+      // const userDetails =JSON.parse(localStorage.getItem('user'));
+      const authToken = localStorage.getItem('authToken');
+      if(!authToken){
+        window.location.replace('/');
+      }
+      const decodedAuthToken = jwtDecode(authToken);
+
+      
+  if(!authToken){
+    window.location.replace('/');
+  }
+      if(decodedAuthToken.user_type !== 'Garage Owner'){
+        window.location.replace('/sign-in');
+      }
     const [name, setName] = useState(null);
     const [phoneNumber, setPhoneNumber] = useState(null);
     const [location, setLocation] = useState({})
@@ -26,9 +42,8 @@ function RegisterGarage(){
 
     const handleSubmit = async(e) =>{
         e.preventDefault();
-        const authToken = localStorage.getItem('authToken');
-        // const userDetails =JSON.parse(localStorage.getItem('user'));
-        const decodedAuthToken = jwtDecode(authToken);
+      
+      
         // console.log(userDetails);
         console.log('userrrrrrrrrrrrrrrrrrrrrr', decodedAuthToken.id);
         // const user = userDetails.user.id;

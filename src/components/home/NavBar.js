@@ -81,7 +81,8 @@ const Navbar = () => {
       </svg>
     </button>
     <div className={`  md:order-2 ${isMenuOpen ? 'block' : 'hidden'}`} id="navbar-hamburger">
-      <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+    <>
+          <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
         
         <li>
           <a href="/register-garage" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Register Garage</a>
@@ -96,7 +97,8 @@ const Navbar = () => {
           <a href="/sign-out" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Sign Out</a>
         </li>
       </ul>
-    </div>
+    </>
+  </div>
   </div>
 </nav>
 

@@ -1,7 +1,10 @@
 import React,{useState} from "react";
 
 
-const baseUrl = 'http://192.168.1.102:8000';
+
+const baseUrl = 'http://192.168.7.152:8000'; //laptop ip address
+const localhost = 'http://127.0.0.1:8000'; //local ip address
+
 function DriverForm(){    
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
@@ -82,6 +85,7 @@ function DriverForm(){
                     id="firstName"
                     maxLength="50"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                    placeholder="First name"
                     onChange={(e) => setFirstName(e.target.value)}
                   required/>
                 </div>
@@ -94,7 +98,7 @@ function DriverForm(){
                     id="lastName"
                     maxLength="50"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    placeholder="email@domain.com"
+                    placeholder="Last name"
                     onChange={(e) => setLastName(e.target.value)}
                   required/>
                 </div>

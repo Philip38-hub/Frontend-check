@@ -1,7 +1,9 @@
 import React,{useEffect, useState} from "react";
 
 
-const baseUrl = 'http://192.168.1.102:8000';
+
+const baseUrl = 'http://192.168.7.152:8000'; //laptop ip address
+const localhost = 'http://127.0.0.1:8000'; //local ip address
 
 function GarageOwnerForm(){    
     const [firstName, setFirstName] = useState(null);

@@ -2,7 +2,7 @@ import './App.css';
 import Home from './Screens/Home';
 // import Garage from './components/Garage';
 import SignIn from './Screens/sign_in';
-// import SignOut from './Screens/sign_out';
+import SignOut from './Screens/sign_out';
 import SignUp from './Screens/sign_up';
 import GarageOwnerForm from './Screens/garage-owner-form';
 import DriverForm from './Screens/driver-form';
@@ -17,13 +17,14 @@ import ServiceDetail from './Screens/service-details';
 import UserDetail from './Screens/view-profile';
 import AddService from './Screens/add-service';
 
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path='/sign-in' element={<SignIn/>}/>
-        {/* <Route path='/sign-out' element={<SignOut/>}/> */}
+        <Route path='/sign-out' element={<SignOut/>}/>
         <Route path='/sign-up' element={<SignUp/>} />
         <Route path='/garage-owner-details' element={<GarageOwnerForm/>} />
         <Route path='/driver-details' element={<DriverForm/>} />

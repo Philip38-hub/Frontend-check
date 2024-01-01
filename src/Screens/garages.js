@@ -3,7 +3,10 @@ import React,{useState} from "react";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { geocodeByAddress, getLatLng } from "react-google-places-autocomplete";
 
-const baseUrl = 'http://192.168.1.102:8000';
+
+const baseUrl = 'http://192.168.7.152:8000'; //laptop ip address
+const localhost = 'http://127.0.0.1:8000'; //local ip address
+
 function Garages(){
     const [garages, setGarages] = useState([]);
 
@@ -11,6 +14,9 @@ function Garages(){
     const getGarages = async(e) =>{
         e.preventDefault();
         const authToken = localStorage.getItem('authToken');
+        if(!authToken){
+          window.location.replace('/');
+        }
         const userDetails =JSON.parse(localStorage.getItem('user'));
         console.log(userDetails);
         const user = userDetails.id;
